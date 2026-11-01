@@ -2,1447 +2,845 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0614">
-<title>Violet — Premium Workspace</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.468.0/font/lucide.css">
-
-<style>
-:root {
-  --bg: #0b0614;
-  --panel: #160d25;
-  --purple: #8b5cf6;
-  --pink: #c084fc;
-  --text: #ffffff;
-  --muted: #a89bbf;
-  --line: rgba(201,170,255,.13);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 90px;
-}
-
-body {
-  font-family: "DM Sans", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  background:
-    radial-gradient(ellipse at 15% 10%,rgba(139,92,246,.19),transparent 35%),
-    radial-gradient(ellipse at 85% 35%,rgba(168,85,247,.13),transparent 34%),
-    radial-gradient(ellipse at 50% 100%,rgba(91,33,182,.12),transparent 38%);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,input,textarea {
-  font: inherit;
-}
-
-.container {
-  width: min(1140px, calc(100% - 44px));
-  margin: auto;
-}
-
-.noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  opacity: .12;
-}
-
-.orb {
-  position: fixed;
-  width: 330px;
-  height: 330px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: .16;
-  pointer-events: none;
-  z-index: -2;
-  animation: drift 16s ease-in-out infinite alternate;
-}
-
-.orb.one {
-  background: #8b5cf6;
-  top: 12%;
-  left: -180px;
-}
-
-.orb.two {
-  background: #c084fc;
-  right: -190px;
-  bottom: 4%;
-}
-
-@keyframes drift {
-  to {
-    transform: translate(80px,-55px) scale(1.15);
-  }
-}
-
-/* NAVBAR */
-
-.nav-wrap {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 50;
-  border-bottom: 1px solid transparent;
-  transition: .3s;
-}
-
-.nav-wrap.scrolled {
-  background: rgba(11,6,20,.85);
-  backdrop-filter: blur(18px);
-  border-color: var(--line);
-}
-
-nav {
-  height: 78px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font: 700 22px "Space Grotesk";
-}
-
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg,#a78bfa,#7c3aed);
-  box-shadow: 0 0 25px #8b5cf655;
-}
-
-.brand-mark i {
-  font-size: 19px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  color: #c5b8d8;
-  font-size: 14px;
-}
-
-.nav-links a:hover {
-  color: white;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px 19px;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: .25s;
-  background: rgba(255,255,255,.035);
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  border-color: #b794ff88;
-  box-shadow: 0 10px 30px #8b5cf633;
-}
-
-.btn.primary {
-  border: 0;
-  background: linear-gradient(110deg,#7c3aed,#a855f7,#c084fc);
-  box-shadow: 0 8px 30px #8b5cf644;
-}
-
-.menu-toggle {
-  display: none;
-  background: none;
-  color: white;
-  border: 0;
-  font-size: 25px;
-  cursor: pointer;
-}
-
-/* HERO */
-
-.hero {
-  min-height: 780px;
-  padding: 170px 0 100px;
-  display: grid;
-  grid-template-columns: 1.04fr .96fr;
-  align-items: center;
-  gap: 55px;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 12px;
-  border: 1px solid #a78bfa33;
-  background: #8b5cf615;
-  border-radius: 99px;
-  color: #d9c8ff;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #c084fc;
-  box-shadow: 0 0 12px #c084fc;
-}
-
-h1,h2,h3 {
-  font-family: "Space Grotesk",sans-serif;
-  line-height: 1.12;
-}
-
-h1 {
-  font-size: clamp(44px,6vw,72px);
-  margin: 24px 0 22px;
-}
-
-.gradient-text {
-  background: linear-gradient(100deg,#fff,#c4a7ff,#a855f7);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero-copy {
-  font-size: 17px;
-  line-height: 1.8;
-  color: var(--muted);
-  max-width: 540px;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 13px;
-  margin-top: 32px;
-  flex-wrap: wrap;
-}
-
-.trust {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  margin-top: 38px;
-  color: #9485aa;
-  font-size: 12px;
-}
-
-.avatars {
-  display: flex;
-  padding-left: 5px;
-}
-
-.avatars span {
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  margin-left: -6px;
-  background: linear-gradient(135deg,#a78bfa,#4c1d95);
-  display: grid;
-  place-items: center;
-  font-size: 9px;
-}
-
-/* DASHBOARD PREVIEW */
-
-.preview-wrap {
-  position: relative;
-  perspective: 1000px;
-}
-
-.glow-ring {
-  position: absolute;
-  inset: 10% 2%;
-  border-radius: 40%;
-  background: #8b5cf6;
-  filter: blur(90px);
-  opacity: .22;
-}
-
-.dashboard {
-  position: relative;
-  border: 1px solid #c4a7ff2a;
-  background: linear-gradient(145deg,#231537,#120a1e);
-  border-radius: 23px;
-  padding: 17px;
-  box-shadow: 0 35px 100px #0008;
-  transform: rotateY(-8deg);
-  animation: float 7s ease-in-out infinite;
-}
-
-@keyframes float {
-  50% {
-    transform: rotateY(-4deg) translateY(-12px);
-  }
-}
-
-.dash-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 3px 3px 17px;
-  border-bottom: 1px solid var(--line);
-  font-size: 12px;
-  color: #c9badb;
-}
-
-.dash-dots {
-  display: flex;
-  gap: 5px;
-}
-
-.dash-dots i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #a78bfa66;
-}
-
-.dash-body {
-  display: grid;
-  grid-template-columns: 46px 1fr;
-  gap: 15px;
-  padding-top: 16px;
-}
-
-.dash-side {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  padding-top: 8px;
-  color: #8c7aa5;
-}
-
-.dash-main {
-  min-width: 0;
-}
-
-.dash-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.dash-heading strong {
-  font: 600 17px "Space Grotesk";
-}
-
-.dash-heading small {
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 10px;
-}
-
-.metric {
-  background: #ffffff08;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 13px;
-}
-
-.metric small {
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.metric strong {
-  display: block;
-  font: 600 22px "Space Grotesk";
-  margin: 4px 0;
-}
-
-.up {
-  font-size: 10px;
-  color: #c4a7ff;
-}
-
-.chart {
-  height: 135px;
-  margin-top: 12px;
-  padding: 13px;
-  background: #ffffff06;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  overflow: hidden;
-}
-
-.chart-label {
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.bars {
-  height: 82px;
-  display: flex;
-  align-items: end;
-  gap: 9px;
-  padding: 8px 5px 0;
-}
-
-.bars span {
-  flex: 1;
-  border-radius: 5px 5px 1px 1px;
-  background: linear-gradient(180deg,#c084fc,#7c3aed55);
-  animation: grow 1.3s ease both;
-  transform-origin: bottom;
-}
-
-@keyframes grow {
-  from { transform: scaleY(.05); }
-  to { transform: scaleY(1); }
-}
-
-.float-icon {
-  position: absolute;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 15px;
-  background: #211334;
-  border: 1px solid #c4a7ff44;
-  color: #d8c4ff;
-  box-shadow: 0 10px 35px #0006;
-  animation: bob 5s ease-in-out infinite;
-}
-
-.float-icon.a {
-  top: 4%;
-  right: -5%;
-}
-
-.float-icon.b {
-  bottom: 7%;
-  left: -8%;
-  animation-delay: -3s;
-}
-
-@keyframes bob {
-  50% { transform: translateY(-13px) rotate(7deg); }
-}
-
-/* SECTIONS */
-
-section {
-  padding: 105px 0;
-}
-
-.section-head {
-  text-align: center;
-  max-width: 650px;
-  margin: 0 auto 48px;
-}
-
-.section-head h2 {
-  font-size: clamp(32px,4vw,46px);
-  margin: 16px 0;
-}
-
-.section-head p {
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 17px;
-}
-
-.card {
-  position: relative;
-  overflow: hidden;
-  padding: 27px;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: linear-gradient(145deg,#1b102b,#120b1d);
-  transition: .3s;
-}
-
-.card:hover {
-  transform: translateY(-7px);
-  border-color: #b794ff66;
-  box-shadow: 0 20px 50px #0004,0 0 35px #8b5cf61b;
-}
-
-.icon-box {
-  width: 47px;
-  height: 47px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: linear-gradient(145deg,#8b5cf633,#c084fc18);
-  border: 1px solid #c4a7ff33;
-  color: #c4a7ff;
-  margin-bottom: 21px;
-}
-
-.icon-box i {
-  font-size: 21px;
-}
-
-.card h3 {
-  font-size: 19px;
-  margin-bottom: 10px;
-}
-
-.card p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-/* ABOUT */
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 65px;
-  align-items: center;
-}
-
-.about-art {
-  min-height: 340px;
-  border: 1px solid var(--line);
-  border-radius: 25px;
-  background: radial-gradient(circle,#8b5cf633,transparent 57%),#10091b;
-  display: grid;
-  place-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.about-art::before,
-.about-art::after {
-  content: "";
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border: 1px solid #c4a7ff28;
-  border-radius: 50%;
-  animation: spin 20s linear infinite;
-}
-
-.about-art::after {
-  width: 190px;
-  height: 190px;
-  animation-direction: reverse;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.core {
-  width: 112px;
-  height: 112px;
-  border-radius: 34px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg,#a78bfa,#6d28d9);
-  box-shadow: 0 0 75px #8b5cf699;
-  z-index: 1;
-}
-
-.core i {
-  font-size: 46px;
-}
-
-.about-copy h2 {
-  font-size: clamp(32px,4vw,45px);
-  margin: 17px 0;
-}
-
-.about-copy p {
-  color: var(--muted);
-  font-size: 15px;
-  margin-bottom: 24px;
-}
-
-.checks {
-  display: grid;
-  gap: 13px;
-  color: #d9cde9;
-  font-size: 14px;
-}
-
-.checks span {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.checks i {
-  color: #c084fc;
-}
-
-/* STATISTICS */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  background: #ffffff05;
-  overflow: hidden;
-}
-
-.stat {
-  text-align: center;
-  padding: 30px 15px;
-  border-right: 1px solid var(--line);
-}
-
-.stat:last-child {
-  border: 0;
-}
-
-.stat strong {
-  font: 700 36px "Space Grotesk";
-  background: linear-gradient(90deg,#fff,#c084fc);
-  background-clip: text;
-  color: transparent;
-}
-
-.stat p {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-/* CONTACT */
-
-.contact-box {
-  display: grid;
-  grid-template-columns: .85fr 1.15fr;
-  gap: 45px;
-  padding: 38px;
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  background: linear-gradient(130deg,#1c102c,#11091d);
-}
-
-.contact-copy h2 {
-  font-size: 38px;
-  margin: 15px 0;
-}
-
-.contact-copy p {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.socials {
-  display: flex;
-  gap: 10px;
-  margin-top: 28px;
-}
-
-.socials a {
-  width: 39px;
-  height: 39px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  color: #c4a7ff;
-  transition: .2s;
-}
-
-.socials a:hover {
-  background: #8b5cf633;
-  transform: translateY(-3px);
-}
-
-form {
-  display: grid;
-  gap: 13px;
-}
-
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 13px;
-}
-
-label {
-  display: grid;
-  gap: 7px;
-  font-size: 12px;
-  color: #c8badb;
-}
-
-input,textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  background: #0c0715;
-  color: white;
-  border-radius: 11px;
-  padding: 13px 14px;
-  outline: none;
-}
-
-input:focus,textarea:focus {
-  border-color: #a78bfa;
-  box-shadow: 0 0 0 3px #8b5cf622;
-}
-
-textarea {
-  min-height: 115px;
-  resize: vertical;
-}
-
-.form-note {
-  font-size: 12px;
-  color: #c4a7ff;
-  min-height: 18px;
-}
-
-/* FOOTER */
-
-footer {
-  padding: 30px 0 38px;
-  border-top: 1px solid var(--line);
-  color: #9182a6;
-  font-size: 12px;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.footer-links {
-  display: flex;
-  gap: 22px;
-}
-
-/* ANIMATIONS */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .7s ease,transform .7s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.loader {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: #0b0614;
-  display: grid;
-  place-items: center;
-  transition: opacity .5s,visibility .5s;
-}
-
-.loader.hide {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.loader-mark {
-  width: 52px;
-  height: 52px;
-  border-radius: 17px;
-  background: linear-gradient(135deg,#a78bfa,#6d28d9);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 0 50px #8b5cf688;
-  animation: pulse 1s infinite alternate;
-}
-
-@keyframes pulse {
-  to { transform: scale(1.12); }
-}
-
-/* RESPONSIVE */
-
-@media(max-width:900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    padding-top: 145px;
-    gap: 65px;
-  }
-
-  .preview-wrap {
-    max-width: 600px;
-    margin: auto;
-    width: 100%;
-  }
-
-  .about-grid {
-    gap: 35px;
-  }
-
-  .contact-box {
-    gap: 25px;
-  }
-}
-
-@media(max-width:700px) {
-  .container {
-    width: calc(100% - 32px);
-  }
-
-  nav {
-    height: 70px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 16px;
-    right: 16px;
-    padding: 20px;
-    background: #170d25;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    flex-direction: column;
-    gap: 18px;
-    align-items: stretch;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .nav-actions .login {
-    display: none;
-  }
-
-  .hero {
-    min-height: auto;
-    padding: 130px 0 70px;
-  }
-
-  h1 {
-    font-size: 47px;
-  }
-
-  section {
-    padding: 75px 0;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .about-grid,
-  .contact-box {
-    grid-template-columns: 1fr;
-  }
-
-  .about-art {
-    min-height: 280px;
-    order: 2;
-  }
-
-  .stats {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .stat:nth-child(2) {
-    border-right: 0;
-  }
-
-  .stat:nth-child(-n+2) {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .contact-box {
-    padding: 24px;
-  }
-
-  .footer-inner {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-links {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .field-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10091d">
+  <title>SPACEORA CLOUD | Minecraft Hosting</title>
+  <meta name="description" content="Power your Minecraft world with SPACEORA. Affordable hosting, powerful performance and 24/7 Discord support.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css">
+
+  <style>
+    :root {
+      --bg: #0b0712;
+      --surface: #140d20;
+      --surface2: #1b112b;
+      --purple: #a855f7;
+      --light: #c084fc;
+      --text: #f8f3ff;
+      --muted: #a99ab8;
+      --border: rgba(192,132,252,.16);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    button { font-family: inherit; }
+
+    .container {
+      width: min(1150px, 90%);
+      margin: auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,7,18,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-content {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span { color: var(--light); }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: white; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      background: linear-gradient(135deg,#9333ea,#c084fc);
+      color: white;
+      padding: 13px 21px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      border: 0;
+      transition: .25s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px #9333ea44;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 0;
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 25%,#7625b82b,transparent 55%);
+    }
+
+    .hero-content {
+      max-width: 850px;
+      margin: auto;
+      padding: 100px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: #a855f710;
+      color: var(--light);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #4ade80;
+    }
+
+    h1 {
+      font-size: clamp(42px,7vw,76px);
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -3px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg,#c084fc,#9333ea,#e9d5ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 25px auto 32px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 13px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 65px;
+      flex-wrap: wrap;
+      margin-top: 65px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 7px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    section { padding: 95px 0; }
+
+    .section-heading {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 48px;
+    }
+
+    .section-heading small {
+      color: var(--light);
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 11px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px,5vw,43px);
+      margin: 15px 0;
+      font-weight: 900;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .plans {
+      background: linear-gradient(180deg,transparent,#170d251c,transparent);
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+    }
+
+    .plan-card {
+      background: linear-gradient(145deg,#1b112b,#110b1b);
+      border: 1px solid var(--border);
+      padding: 25px;
+      border-radius: 17px;
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-7px);
+      border-color: #a855f777;
+      box-shadow: 0 15px 45px #9333ea18;
+    }
+
+    .plan-card.featured {
+      border-color: #a855f799;
+      background: linear-gradient(145deg,#28143d,#140d20);
+    }
+
+    .plan-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .plan-name {
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .plan-name img {
+      width: 25px;
+      height: 25px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    .popular {
+      font-size: 9px;
+      background: #9333ea33;
+      color: #d8b4fe;
+      padding: 6px 9px;
+      border-radius: 20px;
+      font-weight: 800;
+    }
+
+    .price {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .price span {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .plan-description {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .plan-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 20px;
+    }
+
+    .specs {
+      display: grid;
+      gap: 15px;
+      margin-bottom: 24px;
+    }
+
+    .spec {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .spec-label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+    }
+
+    .spec-label img {
+      width: 21px;
+      height: 21px;
+      object-fit: contain;
+    }
+
+    .spec strong { font-size: 13px; }
+
+    .order-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: .25s;
+    }
+
+    .order-btn:hover {
+      background: #9333ea;
+      border-color: #9333ea;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 17px;
+    }
+
+    .feature-card {
+      padding: 25px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: .3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: #a855f777;
+    }
+
+    .feature-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #a855f71c;
+      color: var(--light);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 15px;
+      margin-bottom: 9px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .cta {
+      padding: 65px 30px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      text-align: center;
+      background: radial-gradient(ellipse at center,#7625b83a,#170d25);
+    }
+
+    .cta h2 {
+      font-size: clamp(28px,5vw,42px);
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-links a:hover { color: var(--light); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(max-width:900px) {
+      .plan-grid { grid-template-columns: repeat(2,1fr); }
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    @media(max-width:650px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        width: 100%;
+        padding: 25px;
+        background: #10091d;
+        flex-direction: column;
+        align-items: stretch;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.active { display: flex; }
+      .menu-btn { display: block; }
+      .nav-discord { display: none; }
+
+      .plan-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+
+      .hero-stats { gap: 30px; }
+      .hero { min-height: auto; }
+      .hero-content { padding: 85px 0; }
+      h1 { letter-spacing: -2px; }
+      section { padding: 70px 0; }
+    }
+
+    @media(max-width:380px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="loader" id="loader">
-  <div class="loader-mark">
-    <i class="icon icon-sparkles"></i>
-  </div>
-</div>
-
-<div class="orb one"></div>
-<div class="orb two"></div>
-
-<!-- NAVBAR -->
-
-<div class="nav-wrap" id="navWrap">
-<div class="container">
-<nav>
-
-<a class="brand" href="#home">
-  <span class="brand-mark"><i class="icon icon-orbit"></i></span>
-  violet<span style="color:#c084fc">.</span>
-</a>
-
-<div class="nav-links" id="navLinks">
-  <a href="#home">Home</a>
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#features">Features</a>
-  <a href="#contact">Contact</a>
-</div>
-
-<div class="nav-actions">
-  <a class="btn login" href="#contact">Log in</a>
-  <a class="btn primary" href="#contact">Get started <i class="icon icon-arrow-up-right"></i></a>
-  <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-    <i class="icon icon-menu"></i>
-  </button>
-</div>
-
-</nav>
-</div>
-</div>
-
-<!-- HERO -->
-
-<main>
-
-<section class="container hero" id="home">
-
-<div class="hero-content reveal">
-
-<span class="eyebrow">
-  <span class="dot"></span>
-  YOUR NEXT CHAPTER STARTS HERE
-</span>
-
-<h1>
-  Make space for<br>
-  <span class="gradient-text">what's next.</span>
-</h1>
-
-<p class="hero-copy">
-A clearer way to bring your ideas to life.
-Organize your work, find your flow, and turn
-ambitious plans into meaningful progress.
-</p>
-
-<div class="hero-buttons">
-  <a class="btn primary" href="#contact">
-    Explore the platform <i class="icon icon-arrow-up-right"></i>
-  </a>
-
-  <a class="btn" href="#features">
-    <i class="icon icon-play-circle"></i>
-    Discover features
-  </a>
-</div>
-
-<div class="trust">
-  <div class="avatars">
-    <span>J</span><span>A</span><span>M</span><span>K</span>
-  </div>
-  <span>Built for curious minds and bold teams</span>
-</div>
-
-</div>
-
-<div class="preview-wrap reveal">
-
-<div class="glow-ring"></div>
-
-<div class="dashboard">
-
-<div class="dash-top">
-  <div class="dash-dots"><i></i><i></i><i></i></div>
-  <span>Workspace overview</span>
-  <i class="icon icon-ellipsis"></i>
-</div>
-
-<div class="dash-body">
-
-<aside class="dash-side">
-  <i class="icon icon-layout-dashboard"></i>
-  <i class="icon icon-folder"></i>
-  <i class="icon icon-chart-no-axes-combined"></i>
-  <i class="icon icon-calendar-days"></i>
-  <i class="icon icon-settings"></i>
-</aside>
-
-<div class="dash-main">
-
-<div class="dash-heading">
-  <div>
-    <strong>Good things are in motion.</strong><br>
-    <small>Your workspace at a glance</small>
-  </div>
-  <i class="icon icon-sparkles"></i>
-</div>
-
-<div class="metric-grid">
-
-<div class="metric">
-  <small>Active projects</small>
-  <strong>24</strong>
-  <span class="up">↗ 12% this month</span>
-</div>
-
-<div class="metric">
-  <small>Tasks completed</small>
-  <strong>186</strong>
-  <span class="up">↗ 8.4% this week</span>
-</div>
-
-</div>
-
-<div class="chart">
-  <span class="chart-label">Weekly momentum</span>
-  <div class="bars">
-    <span style="height:35%"></span>
-    <span style="height:55%"></span>
-    <span style="height:43%"></span>
-    <span style="height:72%"></span>
-    <span style="height:61%"></span>
-    <span style="height:88%"></span>
-    <span style="height:100%"></span>
-    <span style="height:79%"></span>
-  </div>
-</div>
-
-</div>
-</div>
-</div>
-
-<div class="float-icon a"><i class="icon icon-sparkles"></i></div>
-<div class="float-icon b"><i class="icon icon-layers"></i></div>
-
-</div>
-</section>
-
-<!-- ABOUT -->
-
-<section id="about">
-<div class="container about-grid">
-
-<div class="about-art reveal">
-  <div class="core"><i class="icon icon-orbit"></i></div>
-</div>
-
-<div class="about-copy reveal">
-
-<span class="eyebrow">A BETTER WAY TO WORK</span>
-
-<h2>
-Less busywork.<br>
-<span class="gradient-text">More brilliance.</span>
-</h2>
-
-<p>
-Great work happens when everything has room to connect.
-Violet brings your projects, people, and ideas into one
-calm, focused space.
-</p>
-
-<div class="checks">
-  <span><i class="icon icon-check-circle"></i> Keep your projects beautifully organized</span>
-  <span><i class="icon icon-check-circle"></i> See what matters, without the noise</span>
-  <span><i class="icon icon-check-circle"></i> Make progress at your own pace</span>
-</div>
-
-</div>
-</div>
-</section>
-
-<!-- SERVICES -->
-
-<section id="services">
-<div class="container">
-
-<div class="section-head reveal">
-  <span class="eyebrow">WHAT WE DO</span>
-  <h2>Everything you need to <span class="gradient-text">move forward.</span></h2>
-  <p>Thoughtful tools that make the complicated feel simple, so your best ideas get the attention they deserve.</p>
-</div>
-
-<div class="cards">
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-panels-top-left"></i></div>
-  <h3>Project spaces</h3>
-  <p>Bring tasks, notes, and resources together in one beautifully organized home for every project.</p>
-</article>
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-users"></i></div>
-  <h3>Team alignment</h3>
-  <p>Keep everyone connected with shared context, clear ownership, and updates that make sense.</p>
-</article>
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-chart-no-axes-combined"></i></div>
-  <h3>Insightful progress</h3>
-  <p>Understand your momentum with simple overviews that turn activity into useful direction.</p>
-</article>
-
-</div>
-</div>
-</section>
-
-<!-- FEATURES -->
-
-<section id="features">
-<div class="container">
-
-<div class="section-head reveal">
-  <span class="eyebrow">MADE TO FEEL EFFORTLESS</span>
-  <h2>Small details. <span class="gradient-text">Big difference.</span></h2>
-  <p>A flexible toolkit designed to fit the way you think, plan, and create.</p>
-</div>
-
-<div class="cards">
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-zap"></i></div>
-  <h3>Fast by design</h3>
-  <p>A lightweight, focused experience that helps you get where you need to go without getting in your way.</p>
-</article>
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-shield-check"></i></div>
-  <h3>Thoughtful security</h3>
-  <p>Keep your work in a space designed around sensible, responsible data practices.</p>
-</article>
-
-<article class="card reveal">
-  <div class="icon-box"><i class="icon icon-swatch-book"></i></div>
-  <h3>Your kind of workflow</h3>
-  <p>Make the workspace yours with adaptable views and a layout that stays out of your way.</p>
-</article>
-
-</div>
-</div>
-</section>
-
-<!-- STATISTICS -->
-
-<section>
-<div class="container">
-
-<div class="section-head reveal">
-  <span class="eyebrow">MOMENTUM, MEASURED</span>
-  <h2>Progress looks good <span class="gradient-text">on you.</span></h2>
-  <p>A few numbers from the kind of work we're here to make possible.</p>
-</div>
-
-<div class="stats reveal">
-
-<div class="stat">
-  <strong data-count="12000" data-suffix="+">0</strong>
-  <p>Ideas in motion</p>
-</div>
-
-<div class="stat">
-  <strong data-count="850" data-suffix="+">0</strong>
-  <p>Projects started</p>
-</div>
-
-<div class="stat">
-  <strong data-count="99" data-suffix="%">0</strong>
-  <p>Focus restored</p>
-</div>
-
-<div class="stat">
-  <strong data-count="24" data-suffix="/7">0</strong>
-  <p>Room to create</p>
-</div>
-
-</div>
-</div>
-</section>
-
-<!-- CONTACT -->
-
-<section id="contact">
-<div class="container">
-
-<div class="contact-box reveal">
-
-<div class="contact-copy">
-
-<span class="eyebrow">LET'S TALK</span>
-
-<h2>
-Have a big idea?<br>
-<span class="gradient-text">We're listening.</span>
-</h2>
-
-<p>
-Tell us what you're working on.
-This demo form gives you a friendly confirmation.
-</p>
-
-<div class="socials">
-  <a href="https://instagram.com" aria-label="Instagram"><i class="icon icon-instagram"></i></a>
-  <a href="https://x.com" aria-label="X"><i class="icon icon-twitter"></i></a>
-  <a href="https://github.com" aria-label="GitHub"><i class="icon icon-github"></i></a>
-</div>
-
-</div>
-
-<form id="contactForm">
-
-<div class="field-row">
-  <label>Your name
-    <input name="name" placeholder="Alex Morgan" required>
-  </label>
-
-  <label>Email address
-    <input type="email" name="email" placeholder="alex@example.com" required>
-  </label>
-</div>
-
-<label>Message
-  <textarea name="message" placeholder="Tell us a little about your idea..." required></textarea>
-</label>
-
-<button class="btn primary" type="submit">
-  Send message <i class="icon icon-arrow-up-right"></i>
-</button>
-
-<p class="form-note" id="formNote" role="status"></p>
-
-</form>
-</div>
-</div>
-</section>
-
-</main>
-
-<!-- FOOTER -->
-
-<footer>
-<div class="container footer-inner">
-
-<a class="brand" href="#home">
-  <span class="brand-mark"><i class="icon icon-orbit"></i></span>
-  violet<span style="color:#c084fc">.</span>
-</a>
-
-<span>© <span id="year"></span> Violet Studio. Made for what's next.</span>
-
-<div class="footer-links">
-  <a href="#about">About</a>
-  <a href="#features">Features</a>
-  <a href="#contact">Contact</a>
-</div>
-
-</div>
-</footer>
-
-<script>
-// LOADING SCREEN
-
-const loader = document.getElementById("loader");
-
-window.addEventListener("load", () => {
-  setTimeout(() => loader.classList.add("hide"), 350);
-});
-
-// NAVBAR SCROLL EFFECT
-
-const navWrap = document.getElementById("navWrap");
-
-window.addEventListener("scroll", () => {
-  navWrap.classList.toggle("scrolled", window.scrollY > 20);
-}, { passive: true });
-
-// MOBILE MENU
-
-const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.getElementById("navLinks");
-
-menuToggle.addEventListener("click", () => {
-  const open = navLinks.classList.toggle("open");
-  menuToggle.innerHTML = `<i class="icon icon-${open ? "x" : "menu"}"></i>`;
-});
-
-navLinks.querySelectorAll("a").forEach(link => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("open");
-    menuToggle.innerHTML = '<i class="icon icon-menu"></i>';
-  });
-});
-
-// SCROLL REVEAL
-
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: .12 });
-
-document.querySelectorAll(".reveal").forEach(el => {
-  revealObserver.observe(el);
-});
-
-// ANIMATED COUNTERS
-
-const countObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-
-    const el = entry.target;
-    const end = Number(el.dataset.count);
-    const suffix = el.dataset.suffix || "";
-    const start = performance.now();
-    const duration = 1400;
-
-    function tick(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-
-      el.textContent =
-        Math.round(end * ease).toLocaleString() + suffix;
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
-    }
-
-    requestAnimationFrame(tick);
-    countObserver.unobserve(el);
-  });
-}, { threshold: .5 });
-
-document.querySelectorAll("[data-count]").forEach(el => {
-  countObserver.observe(el);
-});
-
-// CARD HOVER EFFECT
-
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("pointermove", e => {
-    const rect = card.getBoundingClientRect();
-
-    card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    card.style.setProperty("--my", `${e.clientY - rect.top}px`);
-  });
-});
-
-// CURRENT YEAR
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-// CONTACT FORM DEMO
-
-document.getElementById("contactForm").addEventListener("submit", e => {
-  e.preventDefault();
-
-  const form = e.currentTarget;
-
-  document.getElementById("formNote").textContent =
-    "Thanks! Your message has been received in this demo.";
-
-  form.reset();
-});
-</script>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="logo">SPACEORA<span>.</span></a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#plans">Hosting Plans</a>
+        <a href="#features">Features</a>
+        <a href="#support">Support</a>
+      </nav>
+
+      <a class="btn nav-discord" href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer">
+        <i class="icon icon-message-circle"></i> Join Discord
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">
+        <i class="icon icon-menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <div class="pill">
+          <span class="dot"></span>
+          POWERFUL MINECRAFT SERVER HOSTING
+        </div>
+
+        <h1>
+          POWER YOUR<br>
+          <span class="gradient">MINECRAFT WORLD.</span>
+        </h1>
+
+        <p>
+          Build your world without limits. Experience powerful Minecraft
+          hosting with instant setup, reliable performance and support
+          whenever you need it.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#plans" class="btn">
+            Explore Plans <i class="icon icon-arrow-right"></i>
+          </a>
+          <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            <i class="icon icon-message-circle"></i> Join Community
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>24/7</strong>
+            <span>Discord Support</span>
+          </div>
+          <div class="stat">
+            <strong>Instant</strong>
+            <span>Server Setup</span>
+          </div>
+          <div class="stat">
+            <strong>9</strong>
+            <span>Hosting Plans</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans" id="plans">
+      <div class="container">
+        <div class="section-heading reveal">
+          <small>OUR HOSTING PLANS</small>
+          <h2>CHOOSE YOUR <span class="gradient">POWER.</span></h2>
+          <p>
+            From small survival worlds to large Minecraft communities,
+            find a plan that fits your server.
+          </p>
+        </div>
+
+        <div class="plan-grid">
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534577456567287828.webp?size=44" alt=""> Starter
+              </div>
+            </div>
+            <div class="price">₹40</div>
+            <p class="plan-description">A great start for your Minecraft world.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>4GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>100%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>15GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>2</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534577753230151761.webp?size=44" alt=""> Dirt
+              </div>
+            </div>
+            <div class="price">₹50</div>
+            <p class="plan-description">More room for your growing server.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>6GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>150%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>18GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>2</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534933932280385597.webp?size=44" alt=""> Stone
+              </div>
+            </div>
+            <div class="price">₹100</div>
+            <p class="plan-description">Built for established Minecraft servers.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>8GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>200%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>22GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>2</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534576226197438544.webp?size=44" alt=""> Iron
+              </div>
+            </div>
+            <div class="price">₹120</div>
+            <p class="plan-description">Extra power for bigger adventures.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>12GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>250%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>30GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>2</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card featured reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534575021849313501.webp?size=44" alt=""> Gold
+              </div>
+              <span class="popular">POPULAR</span>
+            </div>
+            <div class="price">₹140</div>
+            <p class="plan-description">A powerful choice for serious players.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>16GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>300%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>40GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>4</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534578933058637935.webp?size=44" alt=""> Diamond
+              </div>
+            </div>
+            <div class="price">₹140</div>
+            <p class="plan-description">High-capacity hosting for ambitious worlds.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>24GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>400%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>55GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>4</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534580665050337331.webp?size=44" alt=""> Emerald
+              </div>
+            </div>
+            <div class="price">₹420</div>
+            <p class="plan-description">Massive resources for large communities.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>32GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>500%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>70GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>4</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534575703570251826.webp?size=44" alt=""> Netherite
+              </div>
+            </div>
+            <div class="price">₹570</div>
+            <p class="plan-description">Serious performance for demanding servers.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>48GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>700%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>90GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>4</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+          <article class="plan-card reveal">
+            <div class="plan-top">
+              <div class="plan-name">
+                <img src="https://cdn.discordapp.com/emojis/1534579225200300102.webp?size=44" alt=""> Dragon
+              </div>
+            </div>
+            <div class="price">₹700</div>
+            <p class="plan-description">Ultimate resources for your Minecraft network.</p>
+            <div class="plan-divider"></div>
+            <div class="specs">
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086257485807790.webp?size=44" alt=""> RAM</span><strong>64GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533872621676920912.webp?size=44" alt=""> CPU</span><strong>1000%</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1533882746898874520.webp?size=44" alt=""> Storage</span><strong>120GB</strong></div>
+              <div class="spec"><span class="spec-label"><img src="https://cdn.discordapp.com/emojis/1534086941446766764.webp?size=44" alt=""> Backups</span><strong>4</strong></div>
+            </div>
+            <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="order-btn">Get Started →</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-heading reveal">
+          <small>INCLUDED WITH EVERY PLAN</small>
+          <h2>MORE THAN JUST <span class="gradient">HOSTING.</span></h2>
+          <p>Every SPACEORA plan includes useful features to help you manage your Minecraft server.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon"><i class="icon icon-shield-check"></i></div>
+            <h3>DDoS Protection</h3>
+            <p>Protection designed to help keep your server online.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon"><i class="icon icon-zap"></i></div>
+            <h3>Instant Setup</h3>
+            <p>Get started quickly with convenient server deployment.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon"><i class="icon icon-puzzle"></i></div>
+            <h3>Plugin Support</h3>
+            <p>Run your favourite plugins and customize your world.</p>
+          </div>
+
+          <div class="feature-card reveal">
+            <div class="feature-icon"><i class="icon icon-headset"></i></div>
+            <h3>24/7 Discord Support</h3>
+            <p>Reach our support community through Discord.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="support">
+      <div class="container">
+        <div class="cta reveal">
+          <h2>READY TO <span class="gradient">POWER YOUR WORLD?</span></h2>
+          <p>
+            Join SPACEORA today. Choose your plan and connect with our
+            community for orders, questions and support.
+          </p>
+          <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer" class="btn">
+            <i class="icon icon-message-circle"></i> Join SPACEORA Discord
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <a href="#" class="logo">SPACEORA<span>.</span></a>
+        <p style="margin-top:10px;">✦ SPACEORA — POWER YOUR WORLD ✦</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#plans">Plans</a>
+        <a href="https://discord.gg/3dWyyCzeYe" target="_blank" rel="noopener noreferrer">Discord</a>
+      </div>
+
+      <p>© <span id="year"></span> SPACEORA CLOUD. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+      });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(element => {
+      observer.observe(element);
+    });
+  </script>
 
 </body>
 </html>
