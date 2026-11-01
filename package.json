@@ -1,14 +1,22 @@
 
 {
-  "name": "violet-purple-website",
+  "name": "spaceora-cloud",
   "version": "1.0.0",
-  "private": true,
-  "description": "Premium purple-themed responsive website",
+  "description": "SPACEORA CLOUD - Premium Minecraft Server Hosting Website",
   "main": "middleware.js",
   "scripts": {
     "start": "node middleware.js",
     "dev": "node middleware.js"
   },
+  "keywords": [
+    "spaceora",
+    "minecraft",
+    "hosting",
+    "game-server",
+    "cloud"
+  ],
+  "author": "SPACEORA CLOUD",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.21.2"
   },
