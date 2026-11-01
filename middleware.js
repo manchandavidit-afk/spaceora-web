@@ -3,54 +3,39 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
-
-// Hosting panel port or default port
 const PORT = process.env.PORT || 3000;
 
-// Security and request middleware
-app.disable("x-powered-by");
-
-app.use(express.json({
-    limit: "20kb"
-}));
-
-app.use(express.urlencoded({
-    extended: false,
-    limit: "20kb"
-}));
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Serve website files
-app.use(express.static(__dirname, {
-    extensions: ["html"],
-    etag: true,
-    maxAge: process.env.NODE_ENV === "production" ? "1h" : 0
-}));
+app.use(express.static(path.join(__dirname)));
 
 // Health check
 app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "ok",
-        app: "violet-website",
-        message: "Website is running successfully!"
-    });
+  res.json({
+    status: "online",
+    name: "SPACEORA CLOUD",
+    message: "SPACEORA website is running!"
+  });
 });
 
 // Homepage
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// 404 handler
+// 404 page
 app.use((req, res) => {
-    res.status(404).send("404 - Page Not Found");
+  res.status(404).send("404 - Page not found");
 });
 
 // Start server
 app.listen(PORT, "0.0.0.0", () => {
-    console.log("--------------------------------");
-    console.log("💜 VIOLET WEBSITE STARTED");
-    console.log("--------------------------------");
-    console.log(`🌐 Port: ${PORT}`);
-    console.log(`🚀 Server: http://localhost:${PORT}`);
-    console.log("--------------------------------");
+  console.log("--------------------------------");
+  console.log("       SPACEORA CLOUD");
+  console.log("--------------------------------");
+  console.log(`Website running on port ${PORT}`);
+  console.log(`Local: http://localhost:${PORT}`);
 });
